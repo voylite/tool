@@ -1,0 +1,50 @@
+.outerhead{
+	text-align: center;
+	text-decoration: none;
+	font-weight: bold;
+	font-size: 30px;
+	padding-bottom: 10px;
+	background-color: antiquewhite;
+}
+
+.form{
+	padding-top: 10px;
+	background-color: azure;
+}
+
+.form-field{
+	padding: 15px;
+}
+
+.form-field-name{
+	color: black;
+	font-style: italic;
+	font-size: 16px;
+}
+
+.warning {
+	color: darkgoldenrod;
+	background-color: lightyellow;
+	border-left: 6px solid red;
+	padding: 5px 5px;
+}
+
+.checkall{
+	color: black;
+	padding: 50px;
+}
+
+.button {
+    background-color: black;
+    border: none;
+    color: white;
+    padding: 10px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.center{
+	text-align: center;
+}
