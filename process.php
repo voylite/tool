@@ -132,19 +132,19 @@ class process{
 					$template = str_replace('{{{details}}}', $details, $template);
 
 					$color = (isset($value[$headerIndexes['Fixture Color']]) && $value[$headerIndexes['Fixture Color']] != 'NA' && !empty($value[$headerIndexes['Fixture Color']]))?$value[$headerIndexes['Fixture Color']]:"";
-					$color .= (isset($value[$headerIndexes['Shade Color']]) && $value[$headerIndexes['Shade Color']] != 'NA' && !empty($value[$headerIndexes['Shade Color']]))?','.$value[$headerIndexes['Shade Color']]:"";
-					$color = ltrim($color,',');
-					$color = rtrim($color,',');
+					$color .= (isset($value[$headerIndexes['Shade Color']]) && $value[$headerIndexes['Shade Color']] != 'NA' && !empty($value[$headerIndexes['Shade Color']]))?', '.$value[$headerIndexes['Shade Color']]:"";
+					$color = ltrim($color,', ');
+					$color = rtrim($color,', ');
 					$template = str_replace('{{{color}}}', $color, $template);
 
 					$size = (isset($value[$headerIndexes['Width']]) && $value[$headerIndexes['Width']] != 'NA' && !empty($value[$headerIndexes['Width']]))?$value[$headerIndexes['Width']]:"";
 					$size .= (isset($value[$headerIndexes['Width - Measuring Unit']]) && $value[$headerIndexes['Width']] != 'NA' && !empty($value[$headerIndexes['Width']]) && !empty($value[$headerIndexes['Width - Measuring Unit']]))?$value[$headerIndexes['Width - Measuring Unit']]:"";
-					$size .= (isset($value[$headerIndexes['Length']]) && $value[$headerIndexes['Length']] != 'NA' && !empty($value[$headerIndexes['Length']]))?','.$value[$headerIndexes['Length']]:"";
+					$size .= (isset($value[$headerIndexes['Length']]) && $value[$headerIndexes['Length']] != 'NA' && !empty($value[$headerIndexes['Length']]))?', '.$value[$headerIndexes['Length']]:"";
 					$size .= (isset($value[$headerIndexes['Length - Measuring Unit']]) && $value[$headerIndexes['Length']] != 'NA' && !empty($value[$headerIndexes['Length']]) && !empty($value[$headerIndexes['Length - Measuring Unit']]))?$value[$headerIndexes['Length - Measuring Unit']]:"";
-					$size .= (isset($value[$headerIndexes['Diameter']]) && $value[$headerIndexes['Diameter']] != 'NA' && !empty($value[$headerIndexes['Diameter']]))?','.$value[$headerIndexes['Diameter']]:"";
+					$size .= (isset($value[$headerIndexes['Diameter']]) && $value[$headerIndexes['Diameter']] != 'NA' && !empty($value[$headerIndexes['Diameter']]))?', '.$value[$headerIndexes['Diameter']]:"";
 					$size .= (isset($value[$headerIndexes['Diameter - Measuring Unit']]) && !empty($value[$headerIndexes['Diameter']]) && $value[$headerIndexes['Diameter']] != 'NA' && !empty($value[$headerIndexes['Diameter - Measuring Unit']]))?$value[$headerIndexes['Diameter - Measuring Unit']]:"";
-					$size = ltrim($size,',');
-					$size = rtrim($size,',');
+					$size = ltrim($size,', ');
+					$size = rtrim($size,', ');
 					$template = str_replace('{{{size}}}', $size, $template);
 
 					$lighting = (isset($value[$headerIndexes['Light Direction']]) && $value[$headerIndexes['Light Direction']] != 'NA' && !empty($value[$headerIndexes['Light Direction']]))?$value[$headerIndexes['Light Direction']]:"";
