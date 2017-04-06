@@ -12,7 +12,7 @@
 		<div class="form-field"><label class="form-field-name">CSV ROWS: </label><input type="number" name="csvrows" value="" /></div>
 		<div class="form-field"><label class="form-field-name">CSV COLUMNS: </label><input type="number" name="csvcols" value="" /></div>
 		<div class="form-field"><input type="hidden" name="invoke" value="_catalogFileUpload" /></div>
-		<div class="form-field"><input type="submit" name="submit" value="Next >>" /></div>
+		<div class="form-field"><input type="submit" class="button" name="submit" value="Next >>" /></div>
 	</form>
 </body>
 </html>
