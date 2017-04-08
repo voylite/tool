@@ -17,6 +17,7 @@
 						jQuery('<input type="checkbox" name="mergelist'+counter+'[]" value="'+jQuery(this).val()+'">').insertAfter(this);
 					}
 				});
+			jQuery('<div class="form-field">Enter Separator for headers : <input type="text" name="headerseperator[]" value=","></div><div class="form-field">Enter Separator for body : <input type="text" name="bodyseperator[]" value="|"></div>').insertBefore("#submitwrap");
 			});
 		});
 	</script>
@@ -39,9 +40,7 @@
 			<div class="form-field"><input type="checkbox" name="checklist[]" value="<?php echo $value ?>"><?php echo $value ?>
 			<input type="text" name="changelist[<?php echo $value ?>]" value="" placeholder="New Heading"></div>
 			<?php } ?>
-			<div class="form-field">Enter Separator for headers : <input type="text" name="headerseperator" value=","></div>
-			<div class="form-field">Enter Separator for body : <input type="text" name="bodyseperator" value="|"></div>
-			<div class="center"><input type="submit" class="button" name="submit" value="Download"></div>
+			<div id="submitwrap" class="center"><input type="submit" class="button" name="submit" value="Download"></div>
 		</form>
 	</div>
 </body>
