@@ -114,7 +114,7 @@ class process{
 		$preDefinedCols = array("category","name","description","sku","price","tax_class_id","is_in_stock","image","stock","weight");
 		$headers = array_flip($this->data[0]);
 		foreach($preDefinedCols as $k1 => $preDefinedCol){
-			if(preg_grep( "/$preDefinedCol/i" , $this->data[0])){
+			if(in_array( $preDefinedCol , $this->data[0])){
 				$preDefined[] = $headers[$preDefinedCol];
 			}
 		}
