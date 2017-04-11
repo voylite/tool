@@ -9,20 +9,20 @@ class process{
 
 	protected function _catalogFileUpload(){
 		$permitted = 1;
-		if(isset($this->post["submit"])){
+		if(isset($this->post["submit"]) || (isset($this->post["submit_upload"]) && $this->post["submit_upload"] == 'uploadsubmit')){
 			if($this->post["headerline"] < 1){
 				$permitted = 0;
-				echo "Header line is improper!!";
+				echo "File could not be uploaded!!!! Header line is improper!!";
 				return;
 			}
 			if($this->files["catalogfile"]["size"] > 2048000){
 				$permitted = 0;
-				echo "File size is too large!!";
+				echo "File could not be uploaded!!!! File size is too large!!";
 				return;
 			}
 			if($this->files["catalogfile"]["type"] != 'text/csv'){
 				$permitted = 0;
-				echo "File type should be text/csv!!... ",empty($this->files["catalogfile"]["type"]) ? "none" : $this->files["catalogfile"]["type"]," given!!!";
+				echo "File could not be uploaded!!!! File type should be text/csv!!... ",empty($this->files["catalogfile"]["type"]) ? "none" : $this->files["catalogfile"]["type"]," given!!!";
 				return;
 			}
 		}else{
@@ -114,7 +114,7 @@ class process{
 		$preDefinedCols = array("category","name","description","sku","price","tax_class_id","is_in_stock","image","stock","weight");
 		$headers = array_flip($this->data[0]);
 		foreach($preDefinedCols as $k1 => $preDefinedCol){
-			if(in_array($preDefinedCol, $this->data[0])){
+			if(preg_grep( "/$preDefinedCol/i" , $this->data[0])){
 				$preDefined[] = $headers[$preDefinedCol];
 			}
 		}
@@ -139,41 +139,96 @@ class process{
 						$template = file_get_contents('html/description_template.html');
 						$description = $details = $color = $size = $lighting = "";
 						
-						$description = (isset($value[$headerIndexes['Description']]) && $value[$headerIndexes['Description']] != 'NA' && !empty($value[$headerIndexes['Description']]))?$value[$headerIndexes['Description']]:"";
-						$template = str_replace('{{{description}}}', $description, $template);
+						if(array_key_exists('Description', $headerIndexes)){
+							$description = (isset($value[$headerIndexes['Description']]) && $value[$headerIndexes['Description']] != 'NA' && !empty($value[$headerIndexes['Description']]))?$value[$headerIndexes['Description']]:"";
+							$template = str_replace('{{{description}}}', $description, $template);
+						}
 
-						$details = (isset($value[$headerIndexes['Suitable For']]) && $value[$headerIndexes['Suitable For']] != 'NA' && !empty($value[$headerIndexes['Suitable For']]))?$value[$headerIndexes['Suitable For']]:"";
-						$details .= (isset($value[$headerIndexes['Fixture Material']]) && $value[$headerIndexes['Fixture Material']] != 'NA'  && !empty($value[$headerIndexes['Fixture Material']]))?'<br/>'.$value[$headerIndexes['Fixture Material']]:"";
-						$details .= (isset($value[$headerIndexes['Shade Material']]) && $value[$headerIndexes['Shade Material']] != 'NA'  && !empty($value[$headerIndexes['Shade Material']]))?'<br/>'.$value[$headerIndexes['Shade Material']]:"";
-						$details .= (isset($value[$headerIndexes['Bulb Used']]) && $value[$headerIndexes['Bulb Used']] != 'NA'  && !empty($value[$headerIndexes['Bulb Used']]))?'<br/>'.$value[$headerIndexes['Bulb Used']]:"";
-						$details .= (isset($value[$headerIndexes['Cord Color']]) && $value[$headerIndexes['Cord Color']] != 'NA'  && !empty($value[$headerIndexes['Cord Color']]))?'<br/>'.$value[$headerIndexes['Cord Color']]:"";
-						$details .= (isset($value[$headerIndexes['Cord Length - Measuring Unit']]) && $value[$headerIndexes['Cord Color']] != 'NA' && !empty($value[$headerIndexes['Cord Length - Measuring Unit']]))?'<br/>'.$value[$headerIndexes['Cord Length - Measuring Unit']]:"";
-						$details .= (isset($value[$headerIndexes['Cord Mesuring Unit']]) && $value[$headerIndexes['Cord Length - Measuring Unit']] != 'NA' && $value[$headerIndexes['Cord Mesuring Unit']] != 'NA' && !empty($value[$headerIndexes['Cord Length - Measuring Unit']]) && !empty($value[$headerIndexes['Cord Mesuring Unit']]))?$value[$headerIndexes['Cord Mesuring Unit']]:"";
+						if(array_key_exists('Suitable For', $headerIndexes)){
+							$details = (isset($value[$headerIndexes['Suitable For']]) && $value[$headerIndexes['Suitable For']] != 'NA' && !empty($value[$headerIndexes['Suitable For']]))?'<br/>Suitable For : '.$value[$headerIndexes['Suitable For']]:"";
+						}
+						
+						if(array_key_exists('Fixture Material', $headerIndexes)){
+							$details .= (isset($value[$headerIndexes['Fixture Material']]) && $value[$headerIndexes['Fixture Material']] != 'NA'  && !empty($value[$headerIndexes['Fixture Material']]))?'<br/>Fixture Material : '.$value[$headerIndexes['Fixture Material']]:"";
+						}
+						
+						if(array_key_exists('Shade Material', $headerIndexes)){
+							$details .= (isset($value[$headerIndexes['Shade Material']]) && $value[$headerIndexes['Shade Material']] != 'NA'  && !empty($value[$headerIndexes['Shade Material']]))?'<br/>Shade Material : '.$value[$headerIndexes['Shade Material']]:"";
+						}
+						
+						if(array_key_exists('Bulb Used', $headerIndexes)){
+							$details .= (isset($value[$headerIndexes['Bulb Used']]) && $value[$headerIndexes['Bulb Used']] != 'NA'  && !empty($value[$headerIndexes['Bulb Used']]))?'<br/> Bulb Used : '.$value[$headerIndexes['Bulb Used']]:"";
+						}
+						
+						if(array_key_exists('Cord Colour', $headerIndexes)){
+							$details .= (isset($value[$headerIndexes['Cord Colour']]) && $value[$headerIndexes['Cord Colour']] != 'NA'  && !empty($value[$headerIndexes['Cord Colour']]))?'<br/>Cord Color : '.$value[$headerIndexes['Cord Colour']]:"";
+							if(array_key_exists('Cord Length - Measuring Unit', $headerIndexes)){
+								$details .= (isset($value[$headerIndexes['Cord Length - Measuring Unit']]) && $value[$headerIndexes['Cord Colour']] != 'NA' && !empty($value[$headerIndexes['Cord Length - Measuring Unit']]))?'<br/>Cord Length : '.$value[$headerIndexes['Cord Length - Measuring Unit']]:"";
+							}
+						}
+						if(array_key_exists('Cord Mesuring Unit', $headerIndexes)){
+							$details .= (isset($value[$headerIndexes['Cord Mesuring Unit']]) && $value[$headerIndexes['Cord Length - Measuring Unit']] != 'NA' && $value[$headerIndexes['Cord Mesuring Unit']] != 'NA' && !empty($value[$headerIndexes['Cord Length - Measuring Unit']]) && !empty($value[$headerIndexes['Cord Mesuring Unit']]))?$value[$headerIndexes['Cord Mesuring Unit']]:"";
+						}
 						$details = ltrim($details,'<br/>');
 						$details = rtrim($details,'<br/>');
 						$template = str_replace('{{{details}}}', $details, $template);
 
-						$color = (isset($value[$headerIndexes['Fixture Color']]) && $value[$headerIndexes['Fixture Color']] != 'NA' && !empty($value[$headerIndexes['Fixture Color']]))?$value[$headerIndexes['Fixture Color']]:"";
-						$color .= (isset($value[$headerIndexes['Shade Color']]) && $value[$headerIndexes['Shade Color']] != 'NA' && !empty($value[$headerIndexes['Shade Color']]))?', '.$value[$headerIndexes['Shade Color']]:"";
+						if(array_key_exists('Fixture Color', $headerIndexes)){
+							$color = (isset($value[$headerIndexes['Fixture Color']]) && $value[$headerIndexes['Fixture Color']] != 'NA' && !empty($value[$headerIndexes['Fixture Color']]))?$value[$headerIndexes['Fixture Color']]:"";
+						}
+						if(array_key_exists('Shade Color', $headerIndexes)){
+							$color .= (isset($value[$headerIndexes['Shade Color']]) && $value[$headerIndexes['Shade Color']] != 'NA' && !empty($value[$headerIndexes['Shade Color']]))?', '.$value[$headerIndexes['Shade Color']]:"";
+						}
+						
 						$color = ltrim($color,', ');
 						$color = rtrim($color,', ');
 						$template = str_replace('{{{color}}}', $color, $template);
 
-						$size = (isset($value[$headerIndexes['Width']]) && $value[$headerIndexes['Width']] != 'NA' && !empty($value[$headerIndexes['Width']]))?$value[$headerIndexes['Width']]:"";
-						$size .= (isset($value[$headerIndexes['Width - Measuring Unit']]) && $value[$headerIndexes['Width']] != 'NA' && !empty($value[$headerIndexes['Width']]) && !empty($value[$headerIndexes['Width - Measuring Unit']]))?$value[$headerIndexes['Width - Measuring Unit']]:"";
-						$size .= (isset($value[$headerIndexes['Length']]) && $value[$headerIndexes['Length']] != 'NA' && !empty($value[$headerIndexes['Length']]))?', '.$value[$headerIndexes['Length']]:"";
-						$size .= (isset($value[$headerIndexes['Length - Measuring Unit']]) && $value[$headerIndexes['Length']] != 'NA' && !empty($value[$headerIndexes['Length']]) && !empty($value[$headerIndexes['Length - Measuring Unit']]))?$value[$headerIndexes['Length - Measuring Unit']]:"";
-						$size .= (isset($value[$headerIndexes['Diameter']]) && $value[$headerIndexes['Diameter']] != 'NA' && !empty($value[$headerIndexes['Diameter']]))?', '.$value[$headerIndexes['Diameter']]:"";
-						$size .= (isset($value[$headerIndexes['Diameter - Measuring Unit']]) && !empty($value[$headerIndexes['Diameter']]) && $value[$headerIndexes['Diameter']] != 'NA' && !empty($value[$headerIndexes['Diameter - Measuring Unit']]))?$value[$headerIndexes['Diameter - Measuring Unit']]:"";
+						if(array_key_exists('Width', $headerIndexes)){
+							$size = (isset($value[$headerIndexes['Width']]) && $value[$headerIndexes['Width']] != 'NA' && !empty($value[$headerIndexes['Width']]))?$value[$headerIndexes['Width']]:"";
+							if(array_key_exists('Width - Measuring Unit', $headerIndexes)){
+								$size .= (isset($value[$headerIndexes['Width - Measuring Unit']]) && $value[$headerIndexes['Width']] != 'NA' && !empty($value[$headerIndexes['Width']]) && !empty($value[$headerIndexes['Width - Measuring Unit']]))?$value[$headerIndexes['Width - Measuring Unit']]:"";
+							}
+						}
+						
+						if(array_key_exists('Length', $headerIndexes)){
+							$size .= (isset($value[$headerIndexes['Length']]) && $value[$headerIndexes['Length']] != 'NA' && !empty($value[$headerIndexes['Length']]))?', '.$value[$headerIndexes['Length']]:"";
+							if(array_key_exists('Length - Measuring Unit', $headerIndexes)){
+								$size .= (isset($value[$headerIndexes['Length - Measuring Unit']]) && $value[$headerIndexes['Length']] != 'NA' && !empty($value[$headerIndexes['Length']]) && !empty($value[$headerIndexes['Length - Measuring Unit']]))?$value[$headerIndexes['Length - Measuring Unit']]:"";
+							}
+						}
+						
+						if(array_key_exists('Diameter', $headerIndexes)){
+							$size .= (isset($value[$headerIndexes['Diameter']]) && $value[$headerIndexes['Diameter']] != 'NA' && !empty($value[$headerIndexes['Diameter']]))?', '.$value[$headerIndexes['Diameter']]:"";
+							if(array_key_exists('Diameter - Measuring Unit', $headerIndexes)){
+								$size .= (isset($value[$headerIndexes['Diameter - Measuring Unit']]) && !empty($value[$headerIndexes['Diameter']]) && $value[$headerIndexes['Diameter']] != 'NA' && !empty($value[$headerIndexes['Diameter - Measuring Unit']]))?$value[$headerIndexes['Diameter - Measuring Unit']]:"";
+							}
+						}
+						
 						$size = ltrim($size,', ');
 						$size = rtrim($size,', ');
 						$template = str_replace('{{{size}}}', $size, $template);
 
-						$lighting = (isset($value[$headerIndexes['Light Direction']]) && $value[$headerIndexes['Light Direction']] != 'NA' && !empty($value[$headerIndexes['Light Direction']]))?$value[$headerIndexes['Light Direction']]:"";
-						$lighting .= (isset($value[$headerIndexes['Switch Type']]) && $value[$headerIndexes['Switch Type']] != 'NA' && !empty($value[$headerIndexes['Switch Type']]))?'<br/>'.$value[$headerIndexes['Switch Type']]:"";
-						$lighting .= (isset($value[$headerIndexes['Light Colour']]) && $value[$headerIndexes['Light Colour']] != 'NA' && !empty($value[$headerIndexes['Light Colour']]))?'<br/>'.$value[$headerIndexes['Light Colour']]:"";
-						$lighting .= (isset($value[$headerIndexes['Maximum Wattage']]) && $value[$headerIndexes['Maximum Wattage']] != 'NA' && !empty($value[$headerIndexes['Maximum Wattage']]))?'<br/>'.$value[$headerIndexes['Maximum Wattage']]:"";
-						$lighting .= (isset($value[$headerIndexes['Maximum Wattage - Measuring Unit']]) && $value[$headerIndexes['Maximum Wattage']] != 'NA' && !empty($value[$headerIndexes['Maximum Wattage']]) && !empty($value[$headerIndexes['Maximum Wattage - Measuring Unit']]))?$value[$headerIndexes['Maximum Wattage - Measuring Unit']]:"";
+						if(array_key_exists('Light Direction', $headerIndexes)){
+							$lighting = (isset($value[$headerIndexes['Light Direction']]) && $value[$headerIndexes['Light Direction']] != 'NA' && !empty($value[$headerIndexes['Light Direction']]))?$value[$headerIndexes['Light Direction']]:"";
+						}
+						
+						if(array_key_exists('Switch Type', $headerIndexes)){
+							$lighting .= (isset($value[$headerIndexes['Switch Type']]) && $value[$headerIndexes['Switch Type']] != 'NA' && !empty($value[$headerIndexes['Switch Type']]))?'<br/>'.$value[$headerIndexes['Switch Type']]:"";
+						}
+						
+						if(array_key_exists('Light Colour', $headerIndexes)){
+							$lighting .= (isset($value[$headerIndexes['Light Colour']]) && $value[$headerIndexes['Light Colour']] != 'NA' && !empty($value[$headerIndexes['Light Colour']]))?'<br/>'.$value[$headerIndexes['Light Colour']]:"";
+						}
+						
+						if(array_key_exists('Maximum Wattage', $headerIndexes)){
+							$lighting .= (isset($value[$headerIndexes['Maximum Wattage']]) && $value[$headerIndexes['Maximum Wattage']] != 'NA' && !empty($value[$headerIndexes['Maximum Wattage']]))?'<br/>'.$value[$headerIndexes['Maximum Wattage']]:"";
+							if(array_key_exists('Maximum Wattage - Measuring Unit', $headerIndexes)){
+								$lighting .= (isset($value[$headerIndexes['Maximum Wattage - Measuring Unit']]) && $value[$headerIndexes['Maximum Wattage']] != 'NA' && !empty($value[$headerIndexes['Maximum Wattage']]) && !empty($value[$headerIndexes['Maximum Wattage - Measuring Unit']]))?$value[$headerIndexes['Maximum Wattage - Measuring Unit']]:"";
+							}
+						}
+						
+						if(array_key_exists('Filament', $headerIndexes)){}
 						$lighting .= (isset($value[$headerIndexes['Filament']]) && $value[$headerIndexes['Filament']] != 'NA' && !empty($value[$headerIndexes['Filament']]))?'<br/>'.$value[$headerIndexes['Filament']]:"";
 						$lighting = ltrim($lighting,'<br/>');
 						$lighting = rtrim($lighting,'<br/>');
