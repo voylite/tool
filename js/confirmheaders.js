@@ -3,6 +3,7 @@ jQuery(document).ready(function() {
         jQuery("input[name*='checklist[]']").not(this).prop('checked', this.checked);
     });
     jQuery("#addmerge").click(function() {
+        jQuery("#checkAll").prop("disabled",true);
         var counter = jQuery("#addcounter").val();
         jQuery("input[name*='checklist[]']").each(function() {
             if (jQuery(this).is(":checked")) {
@@ -10,9 +11,93 @@ jQuery(document).ready(function() {
                     jQuery("#addcounter").val(parseInt(counter, 10) + 1);
                 }
                 jQuery('<input type="checkbox" name="mergelist' + counter + '[]" value="' + jQuery(this).val() + '">').insertAfter(this);
+            }else{
+                jQuery(this).attr("disabled",true);
             }
         });
         jQuery('<div class="form-field">Enter Separator for headers : <input type="text" name="headerseperator[]" value=","></div><div class="form-field">Enter Separator for body : <input type="text" name="bodyseperator[]" value="|"></div>').insertBefore("#submitwrap");
+    });
+    jQuery("#newpro").click(function(){
+        var arr = ["Color","Light Direction","No. of bulbs","Style","Product Knowledge & Care Instruction","Height","Height - Measuring Unit","Width","Width - Measuring Unit"];
+        var indexarr = ["color","light_direction","number_of_bulbs","style","instructions","height"," ","width"," "];
+        var arr2 = ["Weight","Weight - Measuring Unit"];
+        var indexarr2 = ["weight"," "];
+        var arr3 = ["IMG 1.jpg","IMG 2.jpg","IMG 3.jpg","IMG 4.jpg","IMG 5.jpg","IMG 6.jpg","IMG 7.jpg"];
+        var indexarr3 = ["image"," "," "," "," "," "," "];
+        var arr4 = ["Category","Product Name","Description","Voylite Serial Number ( VSN )","MRP","tax_class_id","is_in_stock","Stock Quantity"];
+        var indexarr4 = ["category","name","description","sku","price","tax_class_id","is_in_stock","stock"];
+        jQuery("input[name^='changelist']").each(function(i,em){
+            if(jQuery.inArray(em.step,arr) > -1){
+                em.value = indexarr[arr.indexOf(em.step)];
+            }
+            if(jQuery.inArray(em.step,arr2) > -1){
+                em.value = indexarr2[arr2.indexOf(em.step)];
+            }
+            if(jQuery.inArray(em.step,arr3) > -1){
+                em.value = indexarr3[arr3.indexOf(em.step)];
+            }
+            if(jQuery.inArray(em.step,arr4) > -1){
+                em.value = indexarr4[arr4.indexOf(em.step)];
+            }
+        });
+        jQuery("input[type='checkbox']").each(function(i,em){
+            if(jQuery.inArray(em.value,arr) > -1){
+                jQuery(em).prop("checked",true);
+            }
+            if(jQuery.inArray(em.value,arr2) > -1){
+                jQuery(em).prop("checked",true);
+            }
+            if(jQuery.inArray(em.value,arr3) > -1){
+                jQuery(em).prop("checked",true);
+            }
+            if(jQuery.inArray(em.value,arr4) > -1){
+                jQuery(em).prop("checked",true);
+            }
+        });
+        jQuery("#addmerge").trigger("click");
+        jQuery("input[name='mergelist1[]']").each(function(i,em){
+            if(jQuery.inArray(em.value,arr) > -1){
+                jQuery(em).prop("checked",true);
+            }
+        });
+        jQuery("#addmerge").trigger("click");
+        jQuery("input[name='mergelist2[]']").each(function(i,em){
+            if(jQuery.inArray(em.value,arr2) > -1){
+                jQuery(em).prop("checked",true);
+            }
+        });
+        jQuery("#addmerge").trigger("click");
+        jQuery("input[name='mergelist3[]']").each(function(i,em){
+            if(jQuery.inArray(em.value,arr3) > -1){
+                jQuery(em).prop("checked",true);
+            }
+        });
+        jQuery("input[name='headerseperator[]']").each(function(i,em){
+            switch(i){
+                case 0:
+                    em.value = ',';
+                    break;
+                case 1:
+                    em.value = ' ';
+                    break;
+                case 2:
+                    em.value = ' ';
+                    break;
+            }
+        });
+        jQuery("input[name='bodyseperator[]']").each(function(i,em){
+            switch(i){
+                case 0:
+                    em.value = ',';
+                    break;
+                case 1:
+                    em.value = ' ';
+                    break;
+                case 2:
+                    em.value = ',';
+                    break;
+            }
+        });
     });
 });
 

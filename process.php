@@ -4,7 +4,11 @@ class process{
 	public function __construct($post,$files){
 		$this->post = $post;
 		$this->files = $files;
-		$this->$_POST['invoke']();
+		if(isset($this->post['invoke'])){			
+			$this->$_POST['invoke']();
+		}else{
+			echo "No Input!!!!!!!!!";
+		}
 	}
 
 	protected function _catalogFileUpload(){
@@ -210,26 +214,26 @@ class process{
 						$template = str_replace('{{{size}}}', $size, $template);
 
 						if(array_key_exists('Light Direction', $headerIndexes)){
-							$lighting = (isset($value[$headerIndexes['Light Direction']]) && $value[$headerIndexes['Light Direction']] != 'NA' && !empty($value[$headerIndexes['Light Direction']]))?$value[$headerIndexes['Light Direction']]:"";
+							$lighting = (isset($value[$headerIndexes['Light Direction']]) && $value[$headerIndexes['Light Direction']] != 'NA' && !empty($value[$headerIndexes['Light Direction']]))?'Light Direction : '.$value[$headerIndexes['Light Direction']]:"";
 						}
 						
 						if(array_key_exists('Switch Type', $headerIndexes)){
-							$lighting .= (isset($value[$headerIndexes['Switch Type']]) && $value[$headerIndexes['Switch Type']] != 'NA' && !empty($value[$headerIndexes['Switch Type']]))?'<br/>'.$value[$headerIndexes['Switch Type']]:"";
+							$lighting .= (isset($value[$headerIndexes['Switch Type']]) && $value[$headerIndexes['Switch Type']] != 'NA' && !empty($value[$headerIndexes['Switch Type']]))?'<br/> Switch Type : '.$value[$headerIndexes['Switch Type']]:"";
 						}
 						
 						if(array_key_exists('Light Colour', $headerIndexes)){
-							$lighting .= (isset($value[$headerIndexes['Light Colour']]) && $value[$headerIndexes['Light Colour']] != 'NA' && !empty($value[$headerIndexes['Light Colour']]))?'<br/>'.$value[$headerIndexes['Light Colour']]:"";
+							$lighting .= (isset($value[$headerIndexes['Light Colour']]) && $value[$headerIndexes['Light Colour']] != 'NA' && !empty($value[$headerIndexes['Light Colour']]))?'<br/> Light Colour : '.$value[$headerIndexes['Light Colour']]:"";
 						}
 						
 						if(array_key_exists('Maximum Wattage', $headerIndexes)){
-							$lighting .= (isset($value[$headerIndexes['Maximum Wattage']]) && $value[$headerIndexes['Maximum Wattage']] != 'NA' && !empty($value[$headerIndexes['Maximum Wattage']]))?'<br/>'.$value[$headerIndexes['Maximum Wattage']]:"";
+							$lighting .= (isset($value[$headerIndexes['Maximum Wattage']]) && $value[$headerIndexes['Maximum Wattage']] != 'NA' && !empty($value[$headerIndexes['Maximum Wattage']]))?'<br/> Maximum Wattage : '.$value[$headerIndexes['Maximum Wattage']]:"";
 							if(array_key_exists('Maximum Wattage - Measuring Unit', $headerIndexes)){
 								$lighting .= (isset($value[$headerIndexes['Maximum Wattage - Measuring Unit']]) && $value[$headerIndexes['Maximum Wattage']] != 'NA' && !empty($value[$headerIndexes['Maximum Wattage']]) && !empty($value[$headerIndexes['Maximum Wattage - Measuring Unit']]))?$value[$headerIndexes['Maximum Wattage - Measuring Unit']]:"";
 							}
 						}
 						
 						if(array_key_exists('Filament', $headerIndexes)){}
-						$lighting .= (isset($value[$headerIndexes['Filament']]) && $value[$headerIndexes['Filament']] != 'NA' && !empty($value[$headerIndexes['Filament']]))?'<br/>'.$value[$headerIndexes['Filament']]:"";
+						$lighting .= (isset($value[$headerIndexes['Filament']]) && $value[$headerIndexes['Filament']] != 'NA' && !empty($value[$headerIndexes['Filament']]))?'<br/> Filament : '.$value[$headerIndexes['Filament']]:"";
 						$lighting = ltrim($lighting,'<br/>');
 						$lighting = rtrim($lighting,'<br/>');
 						$template = str_replace('{{{lighting}}}', $lighting, $template);

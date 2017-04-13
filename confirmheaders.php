@@ -30,10 +30,10 @@
 		<form action="process.php" method="post">
 			<input type="hidden" name="invoke" value="_downloadCsv" />
 			<input type="hidden" id="addcounter" value="1">
-			<div><span class="checkall"><input type="checkbox" id="checkAll"/>Check All</span><span><button type="button" class="button" id="addmerge">Add Merge</button></span><span class="checkall"><input type="submit" class="button" name="submit" value="Download"></span></div>
+			<div><span class="checkall"><input type="checkbox" id="checkAll"/>Check All</span><span><button type="button" class="button" id="addmerge">Add Merge</button></span><span class="checkall"><input type="submit" class="button" name="submit" value="Download"></span><span><button type="button" class="button" id="newpro">New Product Default (Simple)</button></span></div>
 			<?php foreach($header as $value){ ?>
 			<div class="form-field"><input type="checkbox" name="checklist[]" value="<?php echo $value ?>"><?php echo $value ?>
-			<input type="text" name="changelist[<?php echo $value ?>]" value="" placeholder="New Heading"></div>
+			<input type="text" step="<?php echo $value ?>" name="changelist[<?php echo $value ?>]" value="" placeholder="New Heading"></div>
 			<?php } ?>
 			<div id="submitwrap" class="center"><input type="submit" class="button" name="submit" value="Download"></div>
 		</form>
