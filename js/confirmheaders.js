@@ -19,6 +19,7 @@ jQuery(document).ready(function() {
     });
     jQuery("#genupdate").click(function(){
         
+        jQuery("#genupdate").closest("span").removeClass("checkall");
         jQuery("#genupdate").attr("disabled",true);
         jQuery("#genupdate").css("opacity","0.5");
         jQuery("#genupdate").css("cursor","not-allowed");
