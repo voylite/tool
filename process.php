@@ -106,10 +106,37 @@ class process{
 			$this->_merge($mergeHeader);
 			$this->_unsMergeData($mergeHeader);
 			$this->_replaceHeader();
+			$this->_altText();
 			$this->_rearrangeColumns();
 			$this->_streamCSV();
 		}else{
 			echo "No data provided!!!";
+		}
+	}
+
+	private function _altText(){
+		if(in_array("alt_text", $this->post['checklist'])){
+			$index = '';
+			foreach($this->data[0] as $headerKey => $headerData){
+				if($headerData == "alt_text"){
+					$index = $headerKey;
+					unset($this->data[0][$headerKey]);
+					$this->data[0][] = "base_image_label";
+					$this->data[0][] = "small_image_label";
+					$this->data[0][] = "thumbnail_image_label";
+					break;
+				}
+			}
+			foreach($this->data as $headerKey1 => $headerData1){
+				if($headerKey1 == 0){
+					continue;
+				}else{
+					$this->data[$headerKey1][] = $headerData1[$index];
+					$this->data[$headerKey1][] = $headerData1[$index];
+					$this->data[$headerKey1][] = $headerData1[$index];
+					unset($this->data[$headerKey1][$index]);
+				}
+			}
 		}
 	}
 
@@ -326,7 +353,9 @@ class process{
 					}else{
 						if(in_array($v6, $measuringUnitKeys)){
 							$tmp = rtrim($tmp,$this->post['bodyseperator'][$k4]);
-							$tmp .= ' '.$v5[$v6].$this->post['bodyseperator'][$k4];
+							if(!empty($tmp)){
+								$tmp .= ' '.$v5[$v6].$this->post['bodyseperator'][$k4];
+							}
 						}else{
 							$tmp .= $v5[$v6].$this->post['bodyseperator'][$k4];
 						}
