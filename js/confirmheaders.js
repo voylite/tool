@@ -4,6 +4,13 @@ jQuery(document).ready(function() {
     });
     jQuery("#addmerge").click(function() {
         jQuery("#checkAll").css("display","none");
+        jQuery("#genupdate").attr("disabled",true);
+        jQuery("#newpro").attr("disabled",true);
+        jQuery("#newpro").css("opacity","0.5");
+        jQuery("#newpro").css("cursor","not-allowed");
+        jQuery("#genupdate").css("opacity","0.5");
+        jQuery("#genupdate").css("cursor","not-allowed");
+
         var counter = jQuery("#addcounter").val();
         jQuery("input[name*='checklist[]']").each(function() {
             if (jQuery(this).is(":checked")) {
@@ -20,9 +27,6 @@ jQuery(document).ready(function() {
     jQuery("#genupdate").click(function(){
         
         jQuery("#genupdate").closest("span").removeClass("checkall");
-        jQuery("#genupdate").attr("disabled",true);
-        jQuery("#genupdate").css("opacity","0.5");
-        jQuery("#genupdate").css("cursor","not-allowed");
         jQuery("#newpro").css("display","none");
 
         var arr = ["Voylite Serial Number ( VSN )","Category"];
@@ -110,9 +114,6 @@ jQuery(document).ready(function() {
     });
     jQuery("#newpro").click(function(){
         
-        jQuery("#newpro").attr("disabled",true);
-        jQuery("#newpro").css("opacity","0.5");
-        jQuery("#newpro").css("cursor","not-allowed");
         jQuery("#genupdate").css("display","none");
         
         var arr = ["Color","Light Direction","No. of bulbs","Style","Product Knowledge & Care Instruction","Height","Height - Measuring Unit","Width","Width - Measuring Unit"];
