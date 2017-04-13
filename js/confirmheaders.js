@@ -3,7 +3,7 @@ jQuery(document).ready(function() {
         jQuery("input[name*='checklist[]']").not(this).prop('checked', this.checked);
     });
     jQuery("#addmerge").click(function() {
-        jQuery("#checkAll").prop("disabled",true);
+        jQuery("#checkAll").css("display","none");
         var counter = jQuery("#addcounter").val();
         jQuery("input[name*='checklist[]']").each(function() {
             if (jQuery(this).is(":checked")) {
@@ -12,12 +12,18 @@ jQuery(document).ready(function() {
                 }
                 jQuery('<input type="checkbox" name="mergelist' + counter + '[]" value="' + jQuery(this).val() + '">').insertAfter(this);
             }else{
-                jQuery(this).attr("disabled",true);
+                jQuery(this).css("display","none");
             }
         });
         jQuery('<div class="form-field">Enter Separator for headers : <input type="text" name="headerseperator[]" value=","></div><div class="form-field">Enter Separator for body : <input type="text" name="bodyseperator[]" value="|"></div>').insertBefore("#submitwrap");
     });
     jQuery("#genupdate").click(function(){
+        
+        jQuery("#genupdate").attr("disabled",true);
+        jQuery("#genupdate").css("opacity","0.5");
+        jQuery("#genupdate").css("cursor","not-allowed");
+        jQuery("#newpro").css("display","none");
+
         var arr = ["Voylite Serial Number ( VSN )","Category"];
         var indexarr = ["sku","categories"];
         var arr2 = ["Height","Height - Measuring Unit"];
@@ -102,6 +108,12 @@ jQuery(document).ready(function() {
         });
     });
     jQuery("#newpro").click(function(){
+        
+        jQuery("#newpro").attr("disabled",true);
+        jQuery("#newpro").css("opacity","0.5");
+        jQuery("#newpro").css("cursor","not-allowed");
+        jQuery("#genupdate").css("display","none");
+        
         var arr = ["Color","Light Direction","No. of bulbs","Style","Product Knowledge & Care Instruction","Height","Height - Measuring Unit","Width","Width - Measuring Unit"];
         var indexarr = ["color","light_direction","number_of_bulbs","style","instructions","height"," ","width"," "];
         var arr2 = ["Weight","Weight - Measuring Unit"];
