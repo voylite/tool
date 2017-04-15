@@ -241,14 +241,14 @@ class process{
 						if(array_key_exists('Maximum Wattage', $headerIndexes)){
 							$lightSpecifications .= (isset($value[$headerIndexes['Maximum Wattage']]) && $value[$headerIndexes['Maximum Wattage']] != 'NA' && !empty($value[$headerIndexes['Maximum Wattage']]))?'<br/> Max Wattage: '.$value[$headerIndexes['Maximum Wattage']]:"";
 							if(array_key_exists('Maximum Wattage - Measuring Unit', $headerIndexes)){
-								$lightSpecifications .= (isset($value[$headerIndexes['Maximum Wattage - Measuring Unit']]) && $value[$headerIndexes['Maximum Wattage']] != 'NA' && !empty($value[$headerIndexes['Maximum Wattage']]) && !empty($value[$headerIndexes['Maximum Wattage - Measuring Unit']]))?$value[$headerIndexes['Maximum Wattage - Measuring Unit']]:"";
+								$lightSpecifications .= (isset($value[$headerIndexes['Maximum Wattage - Measuring Unit']]) && $value[$headerIndexes['Maximum Wattage']] != 'NA' && !empty($value[$headerIndexes['Maximum Wattage']]) && !empty($value[$headerIndexes['Maximum Wattage - Measuring Unit']]))?' '.$value[$headerIndexes['Maximum Wattage - Measuring Unit']]:"";
 							}
 						}
 						
 						if(array_key_exists('Cord Length', $headerIndexes)){
 							$lightSpecifications .= (isset($value[$headerIndexes['Cord Length']]) && $value[$headerIndexes['Cord Length']] != 'NA' && !empty($value[$headerIndexes['Cord Length']]))?'<br/>Cord Length: '.$value[$headerIndexes['Cord Length']]:"";
 							if(array_key_exists('Cord Length - Measuring Unit', $headerIndexes)){
-								$lightSpecifications .= (isset($value[$headerIndexes['Cord Length - Measuring Unit']]) && $value[$headerIndexes['Cord Length - Measuring Unit']] != 'NA' && !empty($value[$headerIndexes['Cord Length - Measuring Unit']]) && !empty($value[$headerIndexes['Cord Length - Measuring Unit']]))?$value[$headerIndexes['Cord Length - Measuring Unit']]:"";
+								$lightSpecifications .= (isset($value[$headerIndexes['Cord Length - Measuring Unit']]) && $value[$headerIndexes['Cord Length - Measuring Unit']] != 'NA' && !empty($value[$headerIndexes['Cord Length - Measuring Unit']]) && !empty($value[$headerIndexes['Cord Length - Measuring Unit']]))?' '.$value[$headerIndexes['Cord Length - Measuring Unit']]:"";
 							}
 						}
 
@@ -261,35 +261,35 @@ class process{
 						if(array_key_exists('Width', $headerIndexes)){
 							$dimensions = (isset($value[$headerIndexes['Width']]) && $value[$headerIndexes['Width']] != 'NA' && !empty($value[$headerIndexes['Width']]))?' <br/> Width: '.$value[$headerIndexes['Width']]:"";
 							if(array_key_exists('Width - Measuring Unit', $headerIndexes)){
-								$dimensions .= (isset($value[$headerIndexes['Width - Measuring Unit']]) && $value[$headerIndexes['Width']] != 'NA' && !empty($value[$headerIndexes['Width']]) && !empty($value[$headerIndexes['Width - Measuring Unit']]))?$value[$headerIndexes['Width - Measuring Unit']]:"";
+								$dimensions .= (isset($value[$headerIndexes['Width - Measuring Unit']]) && $value[$headerIndexes['Width']] != 'NA' && !empty($value[$headerIndexes['Width']]) && !empty($value[$headerIndexes['Width - Measuring Unit']]))?' '.$value[$headerIndexes['Width - Measuring Unit']]:"";
 							}
 						}
 						
 						if(array_key_exists('Length', $headerIndexes)){
 							$dimensions .= (isset($value[$headerIndexes['Length']]) && $value[$headerIndexes['Length']] != 'NA' && !empty($value[$headerIndexes['Length']]))?' <br/> Length: '.$value[$headerIndexes['Length']]:"";
 							if(array_key_exists('Length - Measuring Unit', $headerIndexes)){
-								$dimensions .= (isset($value[$headerIndexes['Length - Measuring Unit']]) && $value[$headerIndexes['Length']] != 'NA' && !empty($value[$headerIndexes['Length']]) && !empty($value[$headerIndexes['Length - Measuring Unit']]))?$value[$headerIndexes['Length - Measuring Unit']]:"";
+								$dimensions .= (isset($value[$headerIndexes['Length - Measuring Unit']]) && $value[$headerIndexes['Length']] != 'NA' && !empty($value[$headerIndexes['Length']]) && !empty($value[$headerIndexes['Length - Measuring Unit']]))?' '.$value[$headerIndexes['Length - Measuring Unit']]:"";
 							}
 						}
 						
 						if(array_key_exists('Diameter', $headerIndexes)){
 							$dimensions .= (isset($value[$headerIndexes['Diameter']]) && $value[$headerIndexes['Diameter']] != 'NA' && !empty($value[$headerIndexes['Diameter']]))?' <br/> Diameter: '.$value[$headerIndexes['Diameter']]:"";
 							if(array_key_exists('Diameter - Measuring Unit', $headerIndexes)){
-								$dimensions .= (isset($value[$headerIndexes['Diameter - Measuring Unit']]) && !empty($value[$headerIndexes['Diameter']]) && $value[$headerIndexes['Diameter']] != 'NA' && !empty($value[$headerIndexes['Diameter - Measuring Unit']]))?$value[$headerIndexes['Diameter - Measuring Unit']]:"";
+								$dimensions .= (isset($value[$headerIndexes['Diameter - Measuring Unit']]) && !empty($value[$headerIndexes['Diameter']]) && $value[$headerIndexes['Diameter']] != 'NA' && !empty($value[$headerIndexes['Diameter - Measuring Unit']]))?' '.$value[$headerIndexes['Diameter - Measuring Unit']]:"";
 							}
 						}
 
 						if(array_key_exists('Height', $headerIndexes)){
 							$dimensions .= (isset($value[$headerIndexes['Height']]) && $value[$headerIndexes['Height']] != 'NA' && !empty($value[$headerIndexes['Height']]))?' <br/> Height: '.$value[$headerIndexes['Height']]:"";
 							if(array_key_exists('Height - Measuring Unit', $headerIndexes)){
-								$dimensions .= (isset($value[$headerIndexes['Height - Measuring Unit']]) && !empty($value[$headerIndexes['Height']]) && $value[$headerIndexes['Height']] != 'NA' && !empty($value[$headerIndexes['Height - Measuring Unit']]))?$value[$headerIndexes['Height - Measuring Unit']]:"";
+								$dimensions .= (isset($value[$headerIndexes['Height - Measuring Unit']]) && !empty($value[$headerIndexes['Height']]) && $value[$headerIndexes['Height']] != 'NA' && !empty($value[$headerIndexes['Height - Measuring Unit']]))?' '.$value[$headerIndexes['Height - Measuring Unit']]:"";
 							}
 						}
 
 						if(array_key_exists('Weight', $headerIndexes)){
 							$dimensions .= (isset($value[$headerIndexes['Weight']]) && $value[$headerIndexes['Weight']] != 'NA' && !empty($value[$headerIndexes['Weight']]))?' <br/> Weight: '.$value[$headerIndexes['Weight']]:"";
 							if(array_key_exists('Weight - Measuring Unit', $headerIndexes)){
-								$dimensions .= (isset($value[$headerIndexes['Weight - Measuring Unit']]) && !empty($value[$headerIndexes['Weight']]) && $value[$headerIndexes['Weight']] != 'NA' && !empty($value[$headerIndexes['Weight - Measuring Unit']]))?$value[$headerIndexes['Weight - Measuring Unit']]:"";
+								$dimensions .= (isset($value[$headerIndexes['Weight - Measuring Unit']]) && !empty($value[$headerIndexes['Weight']]) && $value[$headerIndexes['Weight']] != 'NA' && !empty($value[$headerIndexes['Weight - Measuring Unit']]))?' '.$value[$headerIndexes['Weight - Measuring Unit']]:"";
 							}
 						}
 						
