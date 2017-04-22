@@ -12,6 +12,122 @@ class process{
 		}
 	}
 
+	protected function _downloadColorSize(){
+		$permitted = 1;
+		if(isset($this->post["submit"]) || (isset($this->post["submit_upload"]) && $this->post["submit_upload"] == 'uploadsubmit')){
+			if($this->post["headerline"] < 1){
+				$permitted = 0;
+				echo "File could not be uploaded!!!! Header line is improper!!";
+				return;
+			}
+			if($this->files["catalogfile"]["size"] > 2048000){
+				$permitted = 0;
+				echo "File could not be uploaded!!!! File size is too large!!";
+				return;
+			}
+			if($this->files["catalogfile"]["type"] == 'text/csv' || $this->files["catalogfile"]["type"] == 'application/vnd.ms-excel'){}else{
+					$permitted = 0;
+					echo "File could not be uploaded!!!! File type should be text/csv or application/vnd.ms-excel!!... ",empty($this->files["catalogfile"]["type"]) ? "none" : $this->files["catalogfile"]["type"]," given!!!";
+					return;
+			}
+		}else{
+			$permitted = 0;
+		}
+		if($permitted){
+			if(!file_exists('csv')){
+				mkdir('csv',0777,true);
+			}
+			if(move_uploaded_file($this->files["catalogfile"]["tmp_name"], "csv/colorsize.csv")){
+				$this->_colorSize();
+			}else{
+				echo "File could not be uploaded to server!!!!";
+			}
+		}else{
+			echo "File could not be uploaded!!!!";
+		}
+	}
+
+	private function _colorSize(){
+		$data = $this->_readFromCsv("csv/colorsize.csv");
+
+		if($this->post["csvcols"] != count($data[0])){
+			exit('!Warning : "CSV columns seems improper."');
+		}
+		
+		if($this->post["csvrows"] != count($data)){
+			exit('!Warning : "CSV rows seems improper."');
+		}
+		$data = array_slice($data,$this->post["headerline"]-1);
+		$rawHeader = array_shift($data);
+		$header = array_unique($rawHeader);
+		
+		if(count($header) != count($rawHeader)){
+			exit('!Warning : "Header names are repeated or inconsistent.Please recheck the uploaded CSV."');
+		}
+		foreach($data as $key => $value){
+			if(empty($value[1])){
+				unset($data[$key]);
+			}
+		}
+		$data = array_column($data, 1,0);
+		$data = array_chunk($data, 50,true);
+		if($conn = $this->_connectToMagento()){
+			$this->data = array(array('sku','color_product'));
+			foreach($data as $key2 => $value2){
+				$skus = '';
+				foreach($value2 as $key3 => $value3){
+					$skus .= ','.$value3;
+				}
+				$skus = str_replace(",", "','", ltrim($skus,','));
+				if($tmpdata = $this->_fetchChunkedmaster($conn,$skus)){
+					$master = array();
+					foreach($tmpdata as $value4){
+						$master[$value4[1]] = $value4;
+					}
+					foreach($value2 as $sku => $value5){
+						$colorpattern = '';
+						$relativeSkus = array_flip(explode(',', $value5));
+						if(array_intersect_key($master,$relativeSkus)){
+							foreach($relativeSkus as $skuRelative => $value6){
+								$colorpattern .= $master[$skuRelative][2].','.$master[$skuRelative][3].','.$master[$skuRelative][0].'|';
+							}
+							$this->data[] = array($sku,rtrim($colorpattern,'|'));
+						}
+					}
+				}else{
+					unset($data[$key2]);
+					continue;
+				}
+			}
+			mysqli_close($conn);
+			$this->_streamCSV();
+		}else{
+			echo " Mysql Connection Unavailable!!!";
+		}
+	}
+
+	private function _fetchChunkedmaster($conn,$skus){
+		$Query = "select distinct cpe.entity_id as id,cpe.sku,eaov.value as color,eaov2.value as size from catalog_product_entity as cpe left join catalog_product_entity_int as cpei on cpe.entity_id = cpei.entity_id inner join catalog_product_entity_int as cpei2 on cpei.entity_id = cpei2.entity_id inner join eav_attribute_option as eao on cpei.attribute_id = eao.attribute_id inner join eav_attribute_option_value as eaov on eao.option_id = eaov.option_id inner join eav_attribute_option as eao2 on cpei2.attribute_id = eao2.attribute_id inner join eav_attribute_option_value as eaov2 on eao2.option_id = eaov2.option_id where cpei.attribute_id = (select attribute_id from eav_attribute where attribute_code = 'color') and cpei2.attribute_id = (select attribute_id from eav_attribute where attribute_code = 'size') and eaov.option_id = cpei.value and eaov2.option_id = cpei2.value and cpe.sku IN ('".$skus."')";
+		$data = $conn->query($Query)->fetch_all();
+		return !empty($data)?$data:false;
+	}
+
+	private function _connectToMagento(){
+		$cred = include(dirname(__DIR__).'/voylite/app/etc/env.php');
+		if(array_key_exists('db',$cred) && array_key_exists('connection',$cred['db']) && array_key_exists('default',$cred['db']['connection']) && array_key_exists('host', $cred['db']['connection']['default']) && array_key_exists('dbname', $cred['db']['connection']['default']) && array_key_exists('username', $cred['db']['connection']['default']) && array_key_exists('password', $cred['db']['connection']['default'])){
+			$conn = mysqli_connect($cred['db']['connection']['default']['host'],$cred['db']['connection']['default']['username'],$cred['db']['connection']['default']['password'],$cred['db']['connection']['default']['dbname']);
+			if (mysqli_connect_errno())
+			{
+			  echo "Failed to connect to MySQL: " . mysqli_connect_error();
+			  return false;
+			}else{
+				return $conn;
+			}
+		}else{
+			return false;
+		}
+	}
+
 	protected function _catalogFileUpload(){
 		$permitted = 1;
 		if(isset($this->post["submit"]) || (isset($this->post["submit_upload"]) && $this->post["submit_upload"] == 'uploadsubmit')){
@@ -158,6 +274,9 @@ class process{
 			}
 			$this->data[$k] = array_values($this->data[$k]);
 			$this->data[$k] = array_merge($start, $this->data[$k]);
+			if($this->post['newproduct'] != 0 && $k != 0){
+				$this->data[$k][0] = '';
+			}
 		}
 	}
 

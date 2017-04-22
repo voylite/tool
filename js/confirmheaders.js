@@ -113,7 +113,7 @@ jQuery(document).ready(function() {
         });
     });
     jQuery("#newpro").click(function(){
-        
+        jQuery("#newproduct").val(parseInt(1, 10));
         jQuery("#genupdate").css("display","none");
         
         var arr = ["Color","Light Direction","No. of bulbs","Style","Product Knowledge & Care Instruction","Height","Height - Measuring Unit","Width","Width - Measuring Unit"];

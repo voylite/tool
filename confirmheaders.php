@@ -14,6 +14,7 @@
 		}
 	?>
 	<div>
+		<div class="goto"><a href="color-size.php" target="_blank">Go to Color-Size CSV PANEL</a></div>
 		<form>
 			<input type="hidden" name="invoke" value="_catalogFileUpload" />
 			<input type="hidden" name="submit_upload" value="uploadsubmit" />
@@ -30,7 +31,8 @@
 		<form action="process.php" method="post">
 			<input type="hidden" name="invoke" value="_downloadCsv" />
 			<input type="hidden" id="addcounter" value="1">
-			<div><span class="checkall"><input type="checkbox" id="checkAll"/>Check All</span><span><button type="button" class="button" id="addmerge">Add Merge</button></span><span class="checkall"><input type="submit" class="button" name="submit" value="Download"></span><span><button type="button" class="button" id="newpro">New Product Default (Simple)</button></span><span class="checkall"><button type="button" class="button" id="genupdate">General Update</button></span></div>
+			<input type="hidden" id="newproduct" name="newproduct" value="0">
+			<div><span class="checkall"><input type="checkbox" id="checkAll"/>Check All</span><span><button type="button" class="button" id="addmerge">Add Merge</button></span><span class="checkall"><input type="submit" class="button" name="submit" value="Download"></span><span><button type="button" class="button" id="newpro">New Product Default</button></span><span class="checkall"><button type="button" class="button" id="genupdate">General Update</button></span></div>
 			<?php foreach($header as $value){ ?>
 			<div class="form-field"><input type="checkbox" name="checklist[]" value="<?php echo $value ?>"><?php echo $value ?>
 			<?php if($value != 'alt_text'){ ?>

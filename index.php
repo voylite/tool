@@ -5,6 +5,7 @@
 	<link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 <body>
+	<div class="goto"><a href="color-size.php" target="_blank">Go to Color-Size CSV PANEL</a></div>
 	<div class="outerhead"><span>CSV PANEL</span></div>
 	<form id="catalogfileinput" class="form" action="process.php" method="post" enctype="multipart/form-data">
 		<div class="form-field"><label class="form-field-name">UPLOAD CSV FILE: </label><input type="file" name="catalogfile" /></div>

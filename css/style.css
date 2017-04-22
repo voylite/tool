@@ -2,7 +2,7 @@
 	margin-top: 35px;
 }
 
-.outerhead{
+.outerhead, .outerhead2, .goto{
 	text-align: center;
 	text-decoration: none;
 	font-weight: bold;
@@ -11,9 +11,23 @@
 	background-color: antiquewhite;
 }
 
-.form{
+.goto{
+	cursor: pointer;
+	background-color: floralwhite;
+}
+
+.outerhead2{
+	background-color: black;
+	color: white;
+}
+
+.form, .form2{
 	padding-top: 10px;
 	background-color: azure;
+}
+
+.form2{
+	background-color: gainsboro;
 }
 
 .form-field{
