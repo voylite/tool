@@ -141,10 +141,10 @@ class process{
 				echo "File could not be uploaded!!!! File size is too large!!";
 				return;
 			}
-			if($this->files["catalogfile"]["type"] != 'text/csv'){
-				$permitted = 0;
-				echo "File could not be uploaded!!!! File type should be text/csv!!... ",empty($this->files["catalogfile"]["type"]) ? "none" : $this->files["catalogfile"]["type"]," given!!!";
-				return;
+			if($this->files["catalogfile"]["type"] == 'text/csv' || $this->files["catalogfile"]["type"] == 'application/vnd.ms-excel'){}else{
+					$permitted = 0;
+					echo "File could not be uploaded!!!! File type should be text/csv or application/vnd.ms-excel!!... ",empty($this->files["catalogfile"]["type"]) ? "none" : $this->files["catalogfile"]["type"]," given!!!";
+					return;
 			}
 		}else{
 			$permitted = 0;
