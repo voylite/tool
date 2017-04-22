@@ -29,8 +29,8 @@ jQuery(document).ready(function() {
         jQuery("#genupdate").closest("span").removeClass("checkall");
         jQuery("#newpro").css("display","none");
 
-        var arr = ["Voylite Serial Number ( VSN )","Category","Shade Color"];
-        var indexarr = ["sku","categories","color"];
+        var arr = ["Voylite Serial Number ( VSN )","Category","Fixture Color","size"];
+        var indexarr = ["sku","categories","color","size"];
         var arr2 = ["Height","Height - Measuring Unit"];
         var indexarr2 = ["height"," "];
         var arr3 = ["Width","Width - Measuring Unit"];

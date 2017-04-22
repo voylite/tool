@@ -82,14 +82,14 @@ class process{
 				if($tmpdata = $this->_fetchChunkedmaster($conn,$skus)){
 					$master = array();
 					foreach($tmpdata as $value4){
-						$master[$value4[1]] = $value4;
+						$master[$value4['sku']] = $value4;
 					}
 					foreach($value2 as $sku => $value5){
 						$colorpattern = '';
 						$relativeSkus = array_flip(explode(',', $value5));
 						if(array_intersect_key($master,$relativeSkus)){
 							foreach($relativeSkus as $skuRelative => $value6){
-								$colorpattern .= $master[$skuRelative][2].','.$master[$skuRelative][3].','.$master[$skuRelative][0].'|';
+								$colorpattern .= $master[$skuRelative]['color'].','.$master[$skuRelative]['size'].','.$master[$skuRelative]['id'].'|';
 							}
 							$this->data[] = array($sku,rtrim($colorpattern,'|'));
 						}
@@ -108,7 +108,10 @@ class process{
 
 	private function _fetchChunkedmaster($conn,$skus){
 		$Query = "select distinct cpe.entity_id as id,cpe.sku,eaov.value as color,eaov2.value as size from catalog_product_entity as cpe left join catalog_product_entity_int as cpei on cpe.entity_id = cpei.entity_id inner join catalog_product_entity_int as cpei2 on cpei.entity_id = cpei2.entity_id inner join eav_attribute_option as eao on cpei.attribute_id = eao.attribute_id inner join eav_attribute_option_value as eaov on eao.option_id = eaov.option_id inner join eav_attribute_option as eao2 on cpei2.attribute_id = eao2.attribute_id inner join eav_attribute_option_value as eaov2 on eao2.option_id = eaov2.option_id where cpei.attribute_id = (select attribute_id from eav_attribute where attribute_code = 'color') and cpei2.attribute_id = (select attribute_id from eav_attribute where attribute_code = 'size') and eaov.option_id = cpei.value and eaov2.option_id = cpei2.value and cpe.sku IN ('".$skus."')";
-		$data = $conn->query($Query)->fetch_all();
+		$result = $conn->query($Query);
+		while($row = $result->fetch_assoc()){
+			$data[] = $row;
+        }
 		return !empty($data)?$data:false;
 	}
 
