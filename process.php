@@ -1,7 +1,10 @@
 <?php
 
-class process{
+require_once('config.php');
+
+class process extends config{
 	public function __construct($post,$files){
+		parent::__construct();
 		$this->post = $post;
 		$this->files = $files;
 		if(isset($this->post['invoke'])){
@@ -116,7 +119,7 @@ class process{
 	}
 
 	private function _connectToMagento(){
-		$cred = include(dirname(__DIR__).'/voylite/app/etc/env.php');
+		$cred = include_once($this->_magentoEnv);
 		if(array_key_exists('db',$cred) && array_key_exists('connection',$cred['db']) && array_key_exists('default',$cred['db']['connection']) && array_key_exists('host', $cred['db']['connection']['default']) && array_key_exists('dbname', $cred['db']['connection']['default']) && array_key_exists('username', $cred['db']['connection']['default']) && array_key_exists('password', $cred['db']['connection']['default'])){
 			$conn = mysqli_connect($cred['db']['connection']['default']['host'],$cred['db']['connection']['default']['username'],$cred['db']['connection']['default']['password'],$cred['db']['connection']['default']['dbname']);
 			if (mysqli_connect_errno())
