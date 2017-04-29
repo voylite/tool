@@ -15,6 +15,46 @@ class process extends config{
 		}
 	}
 
+	protected function _clearImport(){
+		shell_exec("rm -rf ".$this->_magentoRoot."var/import/image");
+		echo "Done!!!!";
+	}
+
+	protected function _zipUpload(){
+		$permitted = 1;
+		if(isset($this->post["submit"]) || (isset($this->post["submit_upload"]) && $this->post["submit_upload"] == 'uploadsubmit')){
+			if($this->files["zipfile"]["size"] > 5000000000){
+				$permitted = 0;
+				echo "File could not be uploaded!!!! File size is too large!!";
+				return;
+			}
+			if($this->files["zipfile"]["type"] == 'application/zip'){}else{
+					$permitted = 0;
+					echo "File could not be uploaded!!!! File type should be application/zip!!... ",empty($this->files["zipfile"]["type"]) ? "none" : $this->files["zipfile"]["type"]," given!!!";
+					return;
+			}
+		}else{
+			$permitted = 0;
+		}
+		if($permitted){
+			if(!file_exists($this->_magentoRoot.'var/import/image')){
+				mkdir($this->_magentoRoot.'var/import/image',0777,true);
+			}
+			if(move_uploaded_file($this->files["zipfile"]["tmp_name"], $this->_magentoRoot.'var/import/image/images.zip')){
+				$this->_imageExtract();
+			}else{
+				echo "File could not be uploaded to server!!!!";
+			}
+		}else{
+			echo "File could not be uploaded!!!!";
+		}
+	}
+
+	private function _imageExtract(){
+		$shell = shell_exec("./imageExtract.sh '".$this->_magentoRoot."'");
+		echo "Done!!!";
+	}
+
 	protected function _downloadColorSize(){
 		$permitted = 1;
 		if(isset($this->post["submit"]) || (isset($this->post["submit_upload"]) && $this->post["submit_upload"] == 'uploadsubmit')){
@@ -503,6 +543,15 @@ class process extends config{
 			}
 			$measuringUnitKeys = array();
 			foreach($this->data as $k5 => $v5){
+				if($this->post['isimagecsv'] == 1){
+					if($k5 == 0){
+						$this->data[$k5][] = 'small_image';
+						$this->data[$k5][] = 'thumbnail_image';
+					}else{
+						$this->data[$k5][] = $this->data[$k5][2];
+						$this->data[$k5][] = $this->data[$k5][2];
+					}
+				}
 				$tmp = '';
 				foreach($mergeKeys as $k6 => $v6){
 					if($k5 == 0){

@@ -66,3 +66,14 @@
 .center{
 	text-align: center;
 }
+
+.zipOuter, .zipInner, .zipInnerbutton{
+	margin: 25px;
+}
+
+.zipInnerbuttonSpan{
+	border-left: 5px solid red;
+	background-color: antiquewhite;
+	padding-left: 5px;
+	font-weight: bold;
+}

@@ -1,4 +1,53 @@
 jQuery(document).ready(function() {
+    jQuery("#imagecsv").click(function(){
+        jQuery("#isimagecsv").val(parseInt(1, 10));
+        jQuery("#genupdate").closest("span").removeClass("checkall");
+        jQuery("#newpro").css("display","none");
+        jQuery("#genupdate").css("display","none");
+        var arr = ["Voylite Serial Number ( VSN )","IMG-2.jpg"];
+        var indexarr = ["sku","base_image"];
+        var arr2 = ["IMG-1.jpg","IMG-3.jpg","IMG-4.jpg","IMG-5.jpg","IMG-6.jpg","IMG-7.jpg"];
+        var indexarr2 = ["additional_images"," "," "," "," "," "];
+        jQuery("input[name^='changelist']").each(function(i,em){
+            if(jQuery.inArray(em.step,arr) > -1){
+                em.value = indexarr[arr.indexOf(em.step)];
+            }
+            if(jQuery.inArray(em.step,arr2) > -1){
+                em.value = indexarr2[arr2.indexOf(em.step)];
+            }
+        });
+
+        jQuery("input[type='checkbox']").each(function(i,em){
+            if(jQuery.inArray(em.value,arr) > -1){
+                jQuery(em).prop("checked",true);
+            }
+            if(jQuery.inArray(em.value,arr2) > -1){
+                jQuery(em).prop("checked",true);
+            }
+        });
+
+        jQuery("#addmerge").trigger("click");
+        jQuery("input[name='mergelist1[]']").each(function(i,em){
+            if(jQuery.inArray(em.value,arr2) > -1){
+                jQuery(em).prop("checked",true);
+            }
+        });
+
+        jQuery("input[name='headerseperator[]']").each(function(i,em){
+            switch(i){
+                case 0:
+                    em.value = ' ';
+                    break;
+            }
+        });
+        jQuery("input[name='bodyseperator[]']").each(function(i,em){
+            switch(i){
+                case 0:
+                    em.value = ',';
+                    break;
+            }
+        });
+    });
     jQuery("#checkAll").click(function() {
         jQuery("input[name*='checklist[]']").not(this).prop('checked', this.checked);
     });
@@ -6,10 +55,13 @@ jQuery(document).ready(function() {
         jQuery("#checkAll").css("display","none");
         jQuery("#genupdate").attr("disabled",true);
         jQuery("#newpro").attr("disabled",true);
+        jQuery("#imagecsv").attr("disabled",true);
         jQuery("#newpro").css("opacity","0.5");
         jQuery("#newpro").css("cursor","not-allowed");
         jQuery("#genupdate").css("opacity","0.5");
         jQuery("#genupdate").css("cursor","not-allowed");
+        jQuery("#imagecsv").css("opacity","0.5");
+        jQuery("#imagecsv").css("cursor","not-allowed");
 
         var counter = jQuery("#addcounter").val();
         jQuery("input[name*='checklist[]']").each(function() {
@@ -28,9 +80,10 @@ jQuery(document).ready(function() {
         
         jQuery("#genupdate").closest("span").removeClass("checkall");
         jQuery("#newpro").css("display","none");
+        jQuery("#imagecsv").css("display","none");
 
-        var arr = ["Voylite Serial Number ( VSN )","Category","Color","size"];
-        var indexarr = ["sku","categories","color","size"];
+        var arr = ["Voylite Serial Number ( VSN )","Category","Color","size","Stock Quantity","Priority"];
+        var indexarr = ["sku","categories","color","size","qty","priority"];
         var arr2 = ["Height","Height - Measuring Unit"];
         var indexarr2 = ["height"," "];
         var arr3 = ["Width","Width - Measuring Unit"];
@@ -115,13 +168,12 @@ jQuery(document).ready(function() {
     jQuery("#newpro").click(function(){
         jQuery("#newproduct").val(parseInt(1, 10));
         jQuery("#genupdate").css("display","none");
+        jQuery("#imagecsv").css("display","none");
         
         var arr = ["Color","Light Direction","No. of bulbs","Style","Product Knowledge & Care Instruction","Height","Height - Measuring Unit","Width","Width - Measuring Unit"];
         var indexarr = ["color","light_direction","number_of_bulbs","style","instructions","height"," ","width"," "];
         var arr2 = ["Weight","Weight - Measuring Unit"];
         var indexarr2 = ["weight"," "];
-        var arr3 = ["IMG 1.jpg","IMG 2.jpg","IMG 3.jpg","IMG 4.jpg","IMG 5.jpg","IMG 6.jpg","IMG 7.jpg"];
-        var indexarr3 = ["image"," "," "," "," "," "," "];
         var arr4 = ["Category","Product Name","Description","Voylite Serial Number ( VSN )","MRP","tax_class_id","is_in_stock","Stock Quantity"];
         var indexarr4 = ["category","name","description","sku","price","tax_class_id","is_in_stock","stock"];
         jQuery("input[name^='changelist']").each(function(i,em){
@@ -130,9 +182,6 @@ jQuery(document).ready(function() {
             }
             if(jQuery.inArray(em.step,arr2) > -1){
                 em.value = indexarr2[arr2.indexOf(em.step)];
-            }
-            if(jQuery.inArray(em.step,arr3) > -1){
-                em.value = indexarr3[arr3.indexOf(em.step)];
             }
             if(jQuery.inArray(em.step,arr4) > -1){
                 em.value = indexarr4[arr4.indexOf(em.step)];
@@ -143,9 +192,6 @@ jQuery(document).ready(function() {
                 jQuery(em).prop("checked",true);
             }
             if(jQuery.inArray(em.value,arr2) > -1){
-                jQuery(em).prop("checked",true);
-            }
-            if(jQuery.inArray(em.value,arr3) > -1){
                 jQuery(em).prop("checked",true);
             }
             if(jQuery.inArray(em.value,arr4) > -1){
@@ -161,12 +207,6 @@ jQuery(document).ready(function() {
         jQuery("#addmerge").trigger("click");
         jQuery("input[name='mergelist2[]']").each(function(i,em){
             if(jQuery.inArray(em.value,arr2) > -1){
-                jQuery(em).prop("checked",true);
-            }
-        });
-        jQuery("#addmerge").trigger("click");
-        jQuery("input[name='mergelist3[]']").each(function(i,em){
-            if(jQuery.inArray(em.value,arr3) > -1){
                 jQuery(em).prop("checked",true);
             }
         });

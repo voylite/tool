@@ -6,6 +6,7 @@
 </head>
 <body>
 	<div class="goto"><a href="/" target="_blank">Go to CSV PANEL</a></div>
+	<div class="goto"><a href="import.php" target="_blank">Go to image zip import PANEL</a></div>
 	<div class="outerhead2"><span>Color-Size CSV PANEL</span></div>
 	<form id="catalogfileinput" class="form2" action="process.php" method="post" enctype="multipart/form-data">
 		<div class="form-field"><label class="form-field-name">UPLOAD CSV FILE: </label><input type="file" name="catalogfile" /></div>
