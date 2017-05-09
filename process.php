@@ -28,9 +28,9 @@ class process extends config{
 				echo "File could not be uploaded!!!! File size is too large!!";
 				return;
 			}
-			if($this->files["zipfile"]["type"] == 'application/zip'){}else{
+			if($this->files["zipfile"]["type"] == 'application/zip'|| $this->files["zipfile"]["type"] == 'application/x-zip-compressed'){}else{
 					$permitted = 0;
-					echo "File could not be uploaded!!!! File type should be application/zip!!... ",empty($this->files["zipfile"]["type"]) ? "none" : $this->files["zipfile"]["type"]," given!!!";
+					echo "File could not be uploaded!!!! File type should be application/zip or application/x-zip-compressed!!... ",empty($this->files["zipfile"]["type"]) ? "none" : $this->files["zipfile"]["type"]," given!!!";
 					return;
 			}
 		}else{
