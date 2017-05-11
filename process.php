@@ -37,6 +37,7 @@ class process extends config{
 			$permitted = 0;
 		}
 		if($permitted){
+			shell_exec("rm -rf ".$this->_magentoRoot."var/import/image");
 			if(!file_exists($this->_magentoRoot.'var/import/image')){
 				mkdir($this->_magentoRoot.'var/import/image',0777,true);
 			}
