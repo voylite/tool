@@ -264,7 +264,11 @@ class process extends config{
 	protected function _downloadCsv(){
 		if(isset($this->post['submit']) && isset($this->post['checklist'])&& null !== $this->post['checklist']){
 			$this->data = $this->_readFromCsv("csv/catalogfile.csv");
-			$this->_createDescription();
+			if($this->post['newproduct'] == 1){
+				$this->_deleteDescription();
+			}else{
+				$this->_createDescription();				
+			}
 			$this->_removeUnwantedKeys();
 			$mergeHeader = $this->_getMergeHeader();
 			$this->_merge($mergeHeader);
@@ -275,6 +279,18 @@ class process extends config{
 			$this->_streamCSV();
 		}else{
 			echo "No data provided!!!";
+		}
+	}
+
+	private function _deleteDescription(){
+		if(in_array("Description", $this->post['checklist'])){
+			foreach($this->data as $key => $value){
+				if($key == 0){
+					$headerIndexes = array_flip($value);
+				}else{
+					$this->data[$key][$headerIndexes['Description']] = '';
+				}
+			}
 		}
 	}
 
