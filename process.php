@@ -520,6 +520,7 @@ class process extends config{
 		foreach ($this->data as $fields) {
 			fputcsv($output, $fields);
 		}
+		fclose($output);
 	}
 
 	private function _removeUnwantedKeys(){
