@@ -82,8 +82,8 @@ jQuery(document).ready(function() {
         jQuery("#newpro").css("display","none");
         jQuery("#imagecsv").css("display","none");
 
-        var arr = ["Voylite Serial Number ( VSN )","Category","Color","size","Stock Quantity","Priority","Bulb Included","lumen","Fixture Material","Light Direction","No. of bulbs","Description"];
-        var indexarr = ["sku","categories","color","size","qty","priority","with_bulb","lumen","finish","light_direction","number_of_bulbs","description"];
+        var arr = ["Voylite Serial Number ( VSN )","Category","Color","size","Stock Quantity","Priority","Bulb Included","lumen","Fixture Material","Light Direction","No. of bulbs","Description","home_priority"];
+        var indexarr = ["sku","categories","color","size","qty","priority","with_bulb","lumen","finish","light_direction","number_of_bulbs","description","home_priority"];
         var arr2 = ["Height","Height - Measuring Unit"];
         var indexarr2 = ["height"," "];
         var arr3 = ["Width","Width - Measuring Unit"];
