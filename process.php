@@ -409,7 +409,7 @@ class process extends config{
 						}
 
 						if(array_key_exists('No. of bulbs', $headerIndexes)){
-							$lightSpecifications .= (isset($value[$headerIndexes['No. of bulbs']]) && $value[$headerIndexes['No. of bulbs']] != 'NA' && !empty($value[$headerIndexes['No. of bulbs']]))?'<br/> Number of Bulbs: '.$value[$headerIndexes['No. of bulbs']]:"";
+							$lightSpecifications .= (isset($value[$headerIndexes['No. of bulbs']]) && $value[$headerIndexes['No. of bulbs']] != 'NA' && !empty($value[$headerIndexes['No. of bulbs']]))?'<br/> Number of Bulbs: '.(int) $value[$headerIndexes['No. of bulbs']]:"";
 						}
 
 						if(array_key_exists('Bulb Used', $headerIndexes)){
